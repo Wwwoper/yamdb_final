@@ -5,67 +5,75 @@ on: push
 jobs:
   tests:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Клонирование репозитория.
-      uses: actions/checkout@v3
-    
-  #   - name: Развёртывание окружения Python.
-  #     uses: actions/setup-python@v4
-  #     with:
-  #       python-version: 3.7
+      - name: Клонирование репозитория.
+        uses: actions/checkout@v3
+      
+    #   - name: Развёртывание окружения Python.
+    #     uses: actions/setup-python@v4
+    #     with:
+    #       python-version: 3.7
 
-  #   - name: Установка необходимых зависимостей.
-  #     run: | 
-  #       python -m pip install --upgrade pip 
-  #       pip install flake8 pep8-naming flake8-broken-line flake8-return flake8-isort
-  #       pip install -r ./api_yamdb/requirements.txt  
+    #   - name: Установка необходимых зависимостей.
+    #     run: | 
+    #       python -m pip install --upgrade pip 
+    #       pip install flake8 pep8-naming flake8-broken-line flake8-return flake8-isort
+    #       pip install -r ./api_yamdb/requirements.txt  
 
-  #   - name: Запуск тестов flake8
-  #     run: python -m flake8
+    #   - name: Запуск тестов flake8
+    #     run: python -m flake8
 
-  #   - name: Запуск тестов Pytest
-  #     run: pytest tests
+    #   - name: Запуск тестов Pytest
+    #     run: pytest tests
 
   build_and_push_to_docker_hub:
-      name: Push Docker image to Docker Hub
-      runs-on: ubuntu-latest
-      needs: tests
-      steps:
-        - name: Check out the repo
-          # Проверка доступности репозитория Docker Hub для workflow
-          uses: actions/checkout@v3 
-        - name: Set up Docker Buildx
-          # Вызов сборщика контейнеров docker
-          uses: docker/setup-buildx-action@v2 
-        - name: Login to Docker 
-          # Запуск скрипта авторизации на Docker Hub
-          uses: docker/login-action@v2 
-          with:
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-        - name: Push to Docker Hub
-          # Пуш образа в Docker Hub 
-          uses: docker/build-push-action@v4 
-          with:
-            file: ./api_yamdb/Dockerfile
-            push: true
-            tags: v1ncento/yamdbfinal:latest
-  # deploy:
-  #   name: Deploy
-  #   runs-on: ubuntu-latest
-  #   needs: build_and_push_to_docker_hub
-  #   steps:
-  #   - name: Выполнение удаленных ssh-команд для развертывания
-  #     uses: appleboy/ssh-action@master
-  #     with:
-  #       host: ${{ secrets.HOST }}
-  #       username: ${{ secrets.USER }}
-  #       key: ${{ secrets.SSH_KEY }}
-  #       script: |
-  #         sudo docker pull v1ncento/yamdbfinal:latest
-  #         sudo docker container stop $(sudo docker ps -aq)
-  #         sudo docker run --rm -d -p 5000:5000 v1ncento/yamdbfinal:latest
+    name: Загрузка docker образа на DockerHub
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - name: Проверка доступа репозитория DockerHub
+        uses: actions/checkout@v3 
+      
+      # - name: Вызов сборщика контейнеров docker
+      #   uses: docker/setup-buildx-action@v2
+
+      # - name: Авторизации на DockerHub
+      #   uses: docker/login-action@v2 
+      #   with:
+      #     username: ${{ secrets.DOCKER_USERNAME }}
+      #     password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      # - name: Сборка и Загрузка образа в DockerHub
+      #   uses: docker/build-push-action@v4 
+      #   with:
+      #     file: ./api_yamdb/Dockerfile
+      #     push: true
+      #     tags: v1ncento/yamdbfinal:latest
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build_and_push_to_docker_hub
+    steps:
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username:  ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "nginx/default.conf, ./docker-compose.yaml"
+          target: "home/${{ secrets.USER }}/"
+
+      # - name: Выполнение удаленных ssh-команд для развертывания
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     username: ${{ secrets.USER }}
+      #     key: ${{ secrets.SSH_KEY }}
+      #     script: |
+      #       # sudo docker pull v1ncento/yamdbfinal:latest
+      #       # sudo docker container stop $(sudo docker ps -aq)
+      #       # sudo docker run --rm -d -p 5000:5000 v1ncento/yamdbfinal:latest
 
   # send_message:
     # name: ----> ✉
