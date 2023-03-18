@@ -2,11 +2,6 @@
 name: Testing -> Build & Push docker image -> Deploy Django-app
 on: push
 
-env:
-  IMAGE_NAME = "yamdb_final"
-  USER_NAME = "v1ncento"
-
-
 jobs:
   tests:
     runs-on: ubuntu-latest
