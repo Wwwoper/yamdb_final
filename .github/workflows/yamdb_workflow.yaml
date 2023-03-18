@@ -45,7 +45,7 @@ jobs:
             password: ${{ secrets.DOCKER_PASSWORD }}
         
         - name: Загрузка образа в DockerHub
-          run: docker push v1ncento/yamdbfinal:latest 
+          run: docker push v1ncento/yamdbfinal
           # uses: docker/build-push-action@v4 
           # with:
           #   push: true
