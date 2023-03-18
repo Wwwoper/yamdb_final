@@ -3,17 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-.idea
-.DS_Store
-.AppleDouble
-.LSOverride
-
-*.sublime-project
-*.sublime-workspace
-
-.vscode/
-*.code-workspace
-
 # C extensions
 *.so
 
@@ -138,5 +127,26 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-api_yamdb/static
-api_yamdb/sent_emails
+
+# Папки, создаваемые средой разработки
+.idea
+.DS_Store
+.AppleDouble
+.LSOverride
+
+*.sublime-project
+*.sublime-workspace
+
+.vscode/
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+.mypy_cache
+
+# папки со статикой и медиа
+static/
+posts/static/
+
+Makefile
