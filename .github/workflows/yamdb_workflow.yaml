@@ -61,7 +61,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username:  ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          source: "/infra/*"
+          source: "infra/*"
           target: "home/${{ secrets.USER }}"
 
       # - name: Выполнение удаленных ssh-команд для развертывания
