@@ -48,6 +48,7 @@ jobs:
           # Пуш образа в Docker Hub 
           uses: docker/build-push-action@v4 
           with:
+            file: ./api_yamdb/Dockerfile
             push: true
             tags: v1ncento/yamdbfinal:latest
   # deploy:
