@@ -46,7 +46,7 @@ jobs:
         
         - name: Загрузка образа в DockerHub
           run: |
-              docker build -t v1ncento/yamdb_final:latest .
+              docker build -t v1ncento/yamdb_final:latest
               docker push v1ncento/yamdb_final:latest
           # uses: docker/build-push-action@v4 
           # with:
