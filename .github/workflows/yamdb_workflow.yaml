@@ -61,10 +61,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username:  ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          # source: "/infra/nginx/default.conf, /infra/docker-compose.yaml"
-          source: "./README.md"
-          target: "home/${{ secrets.USER }}/"
-          tar_tmp_path: "home/ruslan/"
+          source: "/infra/*"
+          target: "home/${{ secrets.USER }}"
 
       # - name: Выполнение удаленных ssh-команд для развертывания
       #   uses: appleboy/ssh-action@master
