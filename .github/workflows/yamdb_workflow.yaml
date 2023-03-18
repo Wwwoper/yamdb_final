@@ -45,12 +45,14 @@ jobs:
             password: ${{ secrets.DOCKER_PASSWORD }}
         
         - name: Загрузка образа в DockerHub
-          # run: docker push v1ncento/yamdb_final:latest
-          uses: docker/build-push-action@v4 
-          with:
-            file: ./api_yamdb/Dockerfile
-            push: true
-            tags: v1ncento/yamdbfinal:latest
+          run: |
+              docker build -t v1ncento/yamdb_final:latest .
+              docker push v1ncento/yamdb_final:latest
+          # uses: docker/build-push-action@v4 
+          # with:
+          #   file: ./api_yamdb/Dockerfile
+          #   push: true
+          #   tags: v1ncento/yamdbfinal:latest
   # deploy:
   #   name: Deploy
   #   runs-on: ubuntu-latest
