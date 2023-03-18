@@ -1,6 +1,5 @@
-from django.contrib.auth.tokens import default_token_generator
-
 from django.conf import settings
+from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from reviews.models import User
