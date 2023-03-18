@@ -61,7 +61,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username:  ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          source: "nginx/default.conf, ./docker-compose.yaml"
+          source: "./infra/nginx/default.conf, ./infra/docker-compose.yaml"
           target: "home/${{ secrets.USER }}/"
 
       # - name: Выполнение удаленных ssh-команд для развертывания
