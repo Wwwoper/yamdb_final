@@ -150,3 +150,4 @@ static/
 posts/static/
 media/
 
+github/workflows/yamdb_workflow.yml
