@@ -37,7 +37,7 @@ jobs:
         
         - name: Вызов сборщика контейнеров docker
           uses: docker/setup-buildx-action@v2
-          run: ${{echo $(docker container ls -a)}}
+        - run: ${{echo $(docker container ls -a)}}
           # run: docker build -t v1ncento/yamdb_final:latest
 
         - name: Авторизации на DockerHub
