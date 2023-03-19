@@ -52,7 +52,7 @@ jobs:
         with:
           file: ./api_yamdb/Dockerfile
           push: true
-          tags: v1ncento/${{ env.IMAGE_NAME }}:latest)
+          tags: v1ncento/${{ env.IMAGE_NAME }}:latest
           # $(echo $GITHUB_SHA | head -c7)
 
 
