@@ -32,4 +32,3 @@ volumes:
   pg_data:
   static_value:
   media_value:
-

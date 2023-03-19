@@ -1,4 +1,3 @@
-
 name: YamDB Django-app
 
 on:
@@ -28,10 +27,10 @@ jobs:
           pip install flake8 pep8-naming flake8-broken-line flake8-return flake8-isort
           pip install -r ./api_yamdb/requirements.txt  
 
-      - name: Запуск тестов flake8
+      - name: Запуск проверки линтером flake8.
         run: python -m flake8
 
-      - name: Запуск тестов Pytest
+      - name: Запуск тестов Pytest.
         run: pytest tests
 
   build_and_push_to_docker_hub:
@@ -57,15 +56,14 @@ jobs:
           file: ./api_yamdb/Dockerfile
           push: true
           tags: v1ncento/${{ env.IMAGE_NAME }}:latest
-          # $(echo $GITHUB_SHA | head -c7)
 
 
   deploy:
-    name: Deploy
+    name: Развертывание сайта.
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
-      - name: Выполнение удаленных ssh-команд для развертывания
+      - name: Выполнение удаленных ssh-команд для развертывания.
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -74,6 +72,7 @@ jobs:
           script: |
             sudo docker-compose stop
             sudo docker-compose rm web
+            sudo rm .env
             touch .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -84,13 +83,13 @@ jobs:
             sudo docker-compose up -d
             
   send_message:
-    name: ✉
+    name: Уведомление о результате.
     runs-on: ubuntu-latest
     needs: deploy
     steps:
-    - name: Уведомление в ТГ
+    - name: Отправка уведомления в ТГ.
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: 🎉 ${{ github.workflow }} ☑️
+        message: 🛠 workflow ${{ github.workflow }} выполнен успешно 🎉
