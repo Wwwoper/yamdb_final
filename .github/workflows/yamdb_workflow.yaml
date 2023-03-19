@@ -1,6 +1,10 @@
 
 name: YamDB Django-app
-on: push
+
+on:
+  push:
+    branches:
+      - master
 
 env:
   IMAGE_NAME: yamdb_final
@@ -52,7 +56,7 @@ jobs:
         with:
           file: ./api_yamdb/Dockerfile
           push: true
-          tags: v1ncento/${{ env.IMAGE_NAME }}:${{$GITHUB_SHA | head -c7}}
+          tags: v1ncento/${{ env.IMAGE_NAME }}:${{ github.sha | head -c7}}
           # $(echo $GITHUB_SHA | head -c7)
 
 
@@ -89,4 +93,4 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: ${{ github.workflow }} успешно выполнен!
+        message: 🎉 ${{ github.workflow }} ☑️!
