@@ -3,7 +3,7 @@ name: YamDB Django-app
 on: push
 
 env:
-  IMAGE_NAME = 'yamdb_final'
+  IMAGE_NAME: 'yamdb_final'
 
 jobs:
   tests:
