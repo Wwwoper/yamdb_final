@@ -48,7 +48,7 @@ jobs:
         with:
           file: ./api_yamdb/Dockerfile
           push: true
-          tags: v1ncento/yamdbfinal:latest
+          tags: v1ncento/yamdb_final:latest
 
   deploy:
     name: Deploy
