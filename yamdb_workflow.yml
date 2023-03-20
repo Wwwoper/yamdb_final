@@ -50,7 +50,7 @@ jobs:
       - name: Сборка и Загрузка образа на DockerHub.
         uses: docker/build-push-action@v4 
         with:
-          file: ./api_yamdb/Dockerfile
+          context: ./api_yamdb/
           push: true
           tags: v1ncento/${{ env.IMAGE_NAME }}:latest
 
