@@ -1,4 +1,4 @@
-# Проект YaMDb
+# Проект YaMDb - база отзывов о фильмах, книгах и музыке.
 
 ![example workflow](https://github.com/Wwwoper/yamdb_final/actions/workflows/yamdb_workflow.yaml/badge.svg?event=push)
 
@@ -11,7 +11,9 @@
 - Python
 - Django Rest Framework
 - Postgres
+- Nginx
 - Docker
+- GitHub Actions
 
 ## Ресурсы API YaMDb
 **AUTH**: аутентификация.
@@ -31,12 +33,12 @@
 ## Алгоритм регистрации пользователей
 Пользователь отправляет POST-запрос с параметром email на 
 ```
-/api/v1/auth/email/
+http://51.250.28.178/api/v1/auth/email/
 ```
 YaMDB отправляет письмо с кодом подтверждения (confirmation_code) на адрес email.
 Пользователь отправляет POST-запрос с параметрами email и confirmation_code на
 ```
-/api/v1/auth/token/
+http://51.250.28.178/api/v1/auth/token/
 ```
 в ответе на запрос ему приходит token (JWT-токен).
 Эти операции выполняются один раз, при регистрации пользователя. В результате пользователь получает токен и может работать с API, отправляя этот токен с каждым запросом.
@@ -56,27 +58,41 @@ YaMDB отправляет письмо с кодом подтверждения
 
 Перейти в каталог `infra`  и соберите образ при помощи docker-compose
 ```
-docker-compose up -d --build
+sudo docker-compose up -d --build
 ```
 Примените миграции
 ```
-docker-compose exec web python manage.py migrate
+sudo docker-compose exec web python manage.py migrate
 ```
 Соберите статику
 ```
-docker-compose exec web python manage.py collectstatic --no-input
+sudo docker-compose exec web python manage.py collectstatic --no-input
 ```
 Для доступа к админке не забудьте создать суперюзера
 ```
-docker-compose exec web python manage.py createsuperuser
+sudo docker-compose exec web python manage.py createsuperuser
 ```
 
 ## Примеры. Некоторые примеры запросов к API.
 
+API приложения:
+```
+http://51.250.28.178/api/v1/
+```
+API спецификация:
+```
+http://51.250.28.178/redoc/
+```
+Admin панель:
+```
+http://51.250.28.178/admin/
+```
+
+
 ### GET:
 
 ```
-http://127.0.0.1:8000/api/v1/titles/
+http://51.250.28.178/api/v1/titles/
 ```
 
 ```
@@ -93,7 +109,7 @@ http://127.0.0.1:8000/api/v1/titles/
 ### POST:
 
 ```
-http://127.0.0.1:8000/api/v1/titles/
+http://51.250.28.178/api/v1/titles/
 ```
 
 ```
